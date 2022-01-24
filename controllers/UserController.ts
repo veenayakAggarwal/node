@@ -1,17 +1,38 @@
 const userModel = require('../models/UserModel.ts');
 
-exports.getUser = (req, res) => {
-    userModel.fetchUser(req, res);
-}
+module.exports = {
+    getUser : (req, res) => {
+        userModel.fetchUser()
+            .then(data => {
+                res.send(data);            
+            });
+    },
 
-exports.postUser = (req, res) => {
-    userModel.insertUser(req, res);
-}
+    getUserByKey : (req, res) => {
+        userModel.fetchUserByEmail(req, res)
+            .then(data => {
+                res.send(data);            
+            });
+    },
 
-exports.putUser = (req, res) => {
-    userModel.updateUser(req, res);
-}
+    postUser : (req, res) => {
+        userModel.insertUser(req, res)
+            .then(data => {
+                res.send(data);            
+            });
+    },
 
-exports.deleteUser = (req, res) => {
-    userModel.deleteUser(req, res);
+    putUser : (req, res) => {
+        userModel.updateUser(req, res)
+            .then(data => {
+                res.send(data);            
+            });
+    },
+
+    deleteUser : (req, res) => {
+        userModel.deleteUser(req, res)
+            .then(data => {
+                res.send(data);            
+            });
+    }
 }
