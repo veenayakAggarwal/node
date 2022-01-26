@@ -15,7 +15,10 @@ app.use('/', routes);
 app.use('/graphql', graphqlHTTP({
     schema: userSchema,
     rootValue: graphqlResolver,
-    graphiql: true
+    graphiql: true,
+    formatError(err) { 
+        return err
+    }
 }));
 
 const PORT = process.env.PORT || 8081;
