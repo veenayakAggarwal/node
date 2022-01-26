@@ -1,17 +1,23 @@
-const db = require('../db.ts');
-const mongoose = require('mongoose');
+import { NextFunction, Request, Response } from 'express';
+import { Schema, model, Date } from 'mongoose';
 
-const userSchema = new mongoose.Schema({
+interface User {
+    email: string;
+    password?: string;
+    lastLogin: Date
+}
+  
+const userSchema = new Schema<User>({
 
     email:  { 
         type: String, 
         index: true, 
         unique: true,
-        required: "Oops..email is required what are you doing?"
+        required: true
     },
     password: {
         type: String, 
-        required: "Oops..password is required what are you doing?"
+        required: true
     },
     lastLogin : {
         type : Date,
@@ -20,74 +26,62 @@ const userSchema = new mongoose.Schema({
 
 });
 
-const userTable = mongoose.model('users', userSchema);
+export const userModel = model<User>('users', userSchema);
 
-module.exports =  {
-    insertUser : (req, res) => {
-        const data = { email: req.body.email, password: req.body.password };
-        const userData = new userTable(data);
-    
-        const result = userData.save()
-            .then(data => {
-                return data;       
-            })
-            .catch(err => {
-                return err;       
-            });
+export const insertUser =  (req:any, res:Response, next:NextFunction) => {
+    const data = { email: req.body.email, password: req.body.password };
+    const userData = new userModel(data);
 
-        return result;
-    
-    },
-    
-    fetchUser : () => {
-        const result = userTable.find({})
-            .then(data => {
-                return data;       
-            })
-            .catch(err => {
-                return err;       
-            });
-            
-        return result;
-    },
-    
-    fetchUserByEmail : (req) => {
-        const result = userTable.find({ email: req.params.key })
-            .then(data => {
-                return data;       
-            })
-            .catch(err => {
-                return err;       
-            });
+    const result = userData.save()
+        .then(data => data)
+        .catch(err => {
+            const error = new Error(err);
+            error.message = "There is some issue in creating this account";
+                
+            if (err.index === 0) { 
+                error.message = "User already exists";
+            }                        
+            return next(error);
+        });
 
-        return result;
-    },
-    
-    updateUser : (req, res) => {
-        const data = { email: req.body.email, password: req.body.password };                
-        const filter = { email: req.params.key };
-        
-        const result = userTable.updateOne(filter, data)
-            .then(data => {
-                res.send(data);
-            })
-            .catch(err => {
-                res.send(err);
-            });
-        return result;        
-    },
-    
-    deleteUser : (req, res) => {
-        const result = userTable.deleteOne({ email: req.params.key })
-            .then(data => {
-                res.send(data);
-            })
-            .catch(err => {
-                res.send(err);
-            });
-        return result;        
+    return result;
 
-    }    
 }
+    
+export const fetchUser = () => {
+    const result = userModel.find({})
+        .then(data => data)       
+        .catch(err => err)
+    return result;
+}
+    
+export const fetchUserByEmail = (req:Request ,res:Response, next:NextFunction) => {
+    const result = userModel.find({ email: req.params.key })
+        .then(data => data)       
+        .catch(err => {
+            return next(Error(err));
+        });
+    return result;
+}
+    
+export const updateUser = (req:Request, res:Response, next:NextFunction) => {
+    const data = { email: req.body.email, password: req.body.password };                
+    const filter = { email: req.params.key };
+    
+    const result = userModel.updateOne(filter, data)
+        .then(data => data)       
+        .catch(err => {
+            return next(Error(err));
+        });
+    return result;        
+}
+    
+export const deleteUser = (req:Request, res:Response, next:NextFunction) => {
+    const result = userModel.deleteOne({ email: req.params.key })
+        .then(data => data)       
+        .catch(err => {
+            return next(Error(err));
+        });
+    return result;        
 
-
+}    

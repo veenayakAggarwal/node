@@ -1,17 +1,20 @@
-const mongoose = require('mongoose');
-const config = require('./config.ts');
+import mongoose from 'mongoose';
+import config from './config';
 
 const url = "mongodb://"+config.database.user+":"+config.database.pwd+"@"+config.database.host+":"+config.database.port+"/zemoso";  
 
-mongoose.connect(url, {useNewUrlParser: true});
-const conn = mongoose.connection;
+mongoose.connect(url);
 
-conn.on('connected', function() {
+const database = mongoose.connection;
+
+database.on('connected', () => {
     console.log('database is connected successfully');
 });
-conn.on('disconnected', function () {
+
+database.on('disconnected', () => {
     console.log('database is disconnected successfully');
 });
 
-conn.on('error', console.error.bind(console, 'connection error:'));
-module.exports = conn;
+database.on('error', console.error.bind(console, 'connection error:'));
+
+export default database;

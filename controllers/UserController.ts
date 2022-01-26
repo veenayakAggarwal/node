@@ -1,38 +1,38 @@
-const userModel = require('../models/UserModel.ts');
+import * as userModel from '../models/UserModel';
+import { NextFunction, Request, Response } from 'express';
 
-module.exports = {
-    getUser : (req, res) => {
-        userModel.fetchUser()
-            .then(data => {
-                res.send(data);            
-            });
-    },
 
-    getUserByKey : (req, res) => {
-        userModel.fetchUserByEmail(req, res)
-            .then(data => {
-                res.send(data);            
-            });
-    },
+export const getUser = (req:Request, res:Response, next:NextFunction) => {
+    userModel.fetchUser()
+        .then(data => {
+            res.send(data);            
+        });
+}
 
-    postUser : (req, res) => {
-        userModel.insertUser(req, res)
-            .then(data => {
-                res.send(data);            
-            });
-    },
+export const getUserByKey = (req:Request, res:Response,next:NextFunction) => {
+    userModel.fetchUserByEmail(req, res, next)
+        .then(data => {
+            res.send(data);            
+        });
+}
 
-    putUser : (req, res) => {
-        userModel.updateUser(req, res)
-            .then(data => {
-                res.send(data);            
-            });
-    },
+export const postUser = (req:Request, res:Response, next:NextFunction) => {
+    userModel.insertUser(req, res, next)
+        .then(data => {
+            res.send(data);            
+        });
+}
 
-    deleteUser : (req, res) => {
-        userModel.deleteUser(req, res)
-            .then(data => {
-                res.send(data);            
-            });
-    }
+export const putUser = (req:Request, res:Response, next:NextFunction) => {
+    userModel.updateUser(req, res, next)
+        .then(data => {
+            res.send(data);            
+        });
+}
+
+export const deleteUser = (req:Request, res:Response, next:NextFunction) => {
+    userModel.deleteUser(req, res, next)
+        .then(data => {
+            res.send(data);            
+        });
 }

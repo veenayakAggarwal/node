@@ -1,20 +1,30 @@
-const { buildSchema } = require('graphql');
+import { buildSchema } from 'graphql';
 
-module.exports = buildSchema(`
+export const userSchema =  buildSchema(`
 
-    type UserData {
+    input UserInput {
+        email: String!
+        password: String!
+    }
+
+    type User {
         _id: ID!
         email: String!
         password: String!
-        lastLogin: String!
+        lastLogin: String
     }
 
     type UserMethods {
-        getUsers: [UserData!]
+        getUsers: [User!]
+    }
+
+    type UserMutation {
+        createUser(userInput: UserInput) : User!
     }
 
     schema {
         query: UserMethods
+        mutation: UserMutation
     }
 
 `);
