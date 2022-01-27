@@ -4,7 +4,8 @@ import { Schema, model, Date } from 'mongoose';
 interface User {
     email: string;
     password?: string;
-    lastLogin: Date
+    lastLogin: Date;
+    token: string
 }
   
 const userSchema = new Schema<User>({
@@ -22,6 +23,9 @@ const userSchema = new Schema<User>({
     lastLogin : {
         type : Date,
         default: Date.now()
+    },
+    token: {
+        type : String
     }
 
 });

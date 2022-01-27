@@ -7,11 +7,25 @@ export const userSchema =  buildSchema(`
         password: String!
     }
 
+    input ValidateInputType {
+        token: String! 
+        userId: String!
+    }
+    
     type User {
         _id: ID!
         email: String!
         password: String!
         lastLogin: String
+    }
+
+    type ValidateType {
+        isValid: Boolean!        
+    }
+
+    type AuthData {
+        userId: ID!
+        token: String!
     }
 
     type UserMethods {
@@ -20,6 +34,8 @@ export const userSchema =  buildSchema(`
 
     type UserMutation {
         createUser(userInput: UserInput) : User!
+        login(userInput: UserInput): AuthData!
+        validateToken(userInput: ValidateInputType): ValidateType!
     }
 
     schema {

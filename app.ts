@@ -4,9 +4,14 @@ import bodyParser from 'body-parser';
 import { graphqlHTTP } from 'express-graphql';
 import { userSchema } from './graphql/userSchema';
 import * as graphqlResolver from './graphql/userResolver';
+// import csurf from 'csurf';
+
 import './db'
 
 const app = express();
+
+// const csrf = csurf();
+// app.use(csrf);
 
 app.use(bodyParser.json());
 
