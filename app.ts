@@ -1,5 +1,5 @@
 import express from "express";
-import routes from './routes/UserRoutes';
+import routes from './routes/routes';
 import bodyParser from 'body-parser';
 import { graphqlHTTP } from 'express-graphql';
 import { userSchema } from './graphql/userSchema';

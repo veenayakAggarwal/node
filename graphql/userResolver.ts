@@ -13,7 +13,7 @@ interface Token {
       
 }
 export const getUsers = async () => {
-    return await User.find({});    
+    return User.find({});    
 }
 
 export const createUser = async ({ userInput }, req) => {
@@ -34,7 +34,7 @@ export const createUser = async ({ userInput }, req) => {
             const data = { email, hashedValue };
             const user = new User(data);
             return user.save();
-        });;
+        });
 
 }
 
@@ -46,7 +46,7 @@ export const login = async ({ userInput }, req) => {
         throw new Error("Email is invalid.");
     }
 
-    const result = User.findOne({ email })
+    return User.findOne({ email })
         .then(data => {
             if (!data) {
                 throw new Error("User does not exist.");            
@@ -60,11 +60,8 @@ export const login = async ({ userInput }, req) => {
                         userId: data._id.toString(),
                         token: createToken(data._id, data.email)
                     }
-                });;
+                });
         });        
-
-    return result;
-
 }
 
 export const validateToken = ({ userInput }, req) => { 

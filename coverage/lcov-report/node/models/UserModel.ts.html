@@ -23,9 +23,9 @@
         <div class='clearfix'>
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">31.7% </span>
+                <span class="strong">36.11% </span>
                 <span class="quiet">Statements</span>
-                <span class='fraction'>13/41</span>
+                <span class='fraction'>13/36</span>
             </div>
         
             
@@ -44,9 +44,9 @@
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">22.22% </span>
+                <span class="strong">25.8% </span>
                 <span class="quiet">Lines</span>
-                <span class='fraction'>8/36</span>
+                <span class='fraction'>8/31</span>
             </div>
         
             
@@ -147,14 +147,7 @@
 <a name='L82'></a><a href='#L82'>82</a>
 <a name='L83'></a><a href='#L83'>83</a>
 <a name='L84'></a><a href='#L84'>84</a>
-<a name='L85'></a><a href='#L85'>85</a>
-<a name='L86'></a><a href='#L86'>86</a>
-<a name='L87'></a><a href='#L87'>87</a>
-<a name='L88'></a><a href='#L88'>88</a>
-<a name='L89'></a><a href='#L89'>89</a>
-<a name='L90'></a><a href='#L90'>90</a>
-<a name='L91'></a><a href='#L91'>91</a>
-<a name='L92'></a><a href='#L92'>92</a></td><td class="line-coverage quiet"><span class="cline-any cline-neutral">&nbsp;</span>
+<a name='L85'></a><a href='#L85'>85</a></td><td class="line-coverage quiet"><span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -204,24 +197,20 @@
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">1x</span>
@@ -233,13 +222,10 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
@@ -283,8 +269,8 @@ export const insertUser =  <span class="fstat-no" title="function not covered" >
     const data = <span class="cstat-no" title="statement not covered" >{ email: req.body.email, password: req.body.password };</span>
     const userData = <span class="cstat-no" title="statement not covered" >new userModel(data);</span>
 &nbsp;
-    const result = <span class="cstat-no" title="statement not covered" >userData.save()</span>
-        .then(<span class="fstat-no" title="function not covered" >data </span>=&gt; <span class="cstat-no" title="statement not covered" >data)</span>
+<span class="cstat-no" title="statement not covered" >    return userData.save()</span>
+        .then(<span class="fstat-no" title="function not covered" >result </span>=&gt; <span class="cstat-no" title="statement not covered" >result)</span>
         .catch(<span class="fstat-no" title="function not covered" >err </span>=&gt; {
             const error = <span class="cstat-no" title="statement not covered" >new Error(err);</span>
 <span class="cstat-no" title="statement not covered" >            error.message = "There is some issue in creating this account";</span>
@@ -295,46 +281,39 @@ export const insertUser =  <span class="fstat-no" title="function not covered" >
 <span class="cstat-no" title="statement not covered" >            return next(error);</span>
         });
 &nbsp;
-<span class="cstat-no" title="statement not covered" >    return result;</span>
-&nbsp;
 }
     
 export const fetchUser = <span class="fstat-no" title="function not covered" >() =</span>&gt; {
-    const result = <span class="cstat-no" title="statement not covered" >userModel.find({})</span>
+<span class="cstat-no" title="statement not covered" >    return userModel.find({})</span>
         .then(<span class="fstat-no" title="function not covered" >data </span>=&gt; <span class="cstat-no" title="statement not covered" >data)       </span>
         .catch(<span class="fstat-no" title="function not covered" >err </span>=&gt; <span class="cstat-no" title="statement not covered" >err)</span>
-<span class="cstat-no" title="statement not covered" >    return result;</span>
 }
     
 export const fetchUserByEmail = <span class="fstat-no" title="function not covered" >(r</span>eq:Request ,res:Response, next:NextFunction) =&gt; {
-    const result = <span class="cstat-no" title="statement not covered" >userModel.find({ email: req.params.key })</span>
-        .then(<span class="fstat-no" title="function not covered" >data </span>=&gt; <span class="cstat-no" title="statement not covered" >data)       </span>
+<span class="cstat-no" title="statement not covered" >    return userModel.find({ email: req.params.key })</span>
+        .then(<span class="fstat-no" title="function not covered" >result </span>=&gt; <span class="cstat-no" title="statement not covered" >result)       </span>
         .catch(<span class="fstat-no" title="function not covered" >err </span>=&gt; {
 <span class="cstat-no" title="statement not covered" >            return next(Error(err));</span>
         });
-<span class="cstat-no" title="statement not covered" >    return result;</span>
 }
     
 export const updateUser = <span class="fstat-no" title="function not covered" >(r</span>eq:Request, res:Response, next:NextFunction) =&gt; {
     const data = <span class="cstat-no" title="statement not covered" >{ email: req.body.email, password: req.body.password };                </span>
     const filter = <span class="cstat-no" title="statement not covered" >{ email: req.params.key };</span>
     
-    const result = <span class="cstat-no" title="statement not covered" >userModel.updateOne(filter, data)</span>
-        .then(<span class="fstat-no" title="function not covered" >data </span>=&gt; <span class="cstat-no" title="statement not covered" >data)       </span>
+<span class="cstat-no" title="statement not covered" >    return userModel.updateOne(filter, data)</span>
+        .then(<span class="fstat-no" title="function not covered" >result </span>=&gt; <span class="cstat-no" title="statement not covered" >result)       </span>
         .catch(<span class="fstat-no" title="function not covered" >err </span>=&gt; {
 <span class="cstat-no" title="statement not covered" >            return next(Error(err));</span>
         });
-<span class="cstat-no" title="statement not covered" >    return result;        </span>
 }
     
 export const deleteUser = <span class="fstat-no" title="function not covered" >(r</span>eq:Request, res:Response, next:NextFunction) =&gt; {
-    const result = <span class="cstat-no" title="statement not covered" >userModel.deleteOne({ email: req.params.key })</span>
+<span class="cstat-no" title="statement not covered" >    return userModel.deleteOne({ email: req.params.key })</span>
         .then(<span class="fstat-no" title="function not covered" >data </span>=&gt; <span class="cstat-no" title="statement not covered" >data)       </span>
         .catch(<span class="fstat-no" title="function not covered" >err </span>=&gt; {
 <span class="cstat-no" title="statement not covered" >            return next(Error(err));</span>
         });
-<span class="cstat-no" title="statement not covered" >    return result;        </span>
-&nbsp;
 }    
 &nbsp;</pre></td></tr></table></pre>
 
@@ -343,7 +322,7 @@ export const deleteUser = <span class="fstat-no" title="function not covered" >(
             <div class='footer quiet pad2 space-top1 center small'>
                 Code coverage generated by
                 <a href="https://istanbul.js.org/" target="_blank" rel="noopener noreferrer">istanbul</a>
-                at Sun Jan 30 2022 22:19:44 GMT+0530 (India Standard Time)
+                at Sun Jan 30 2022 22:27:35 GMT+0530 (India Standard Time)
             </div>
         <script src="../../prettify.js"></script>
         <script>

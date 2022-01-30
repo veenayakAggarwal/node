@@ -36,8 +36,8 @@ export const insertUser =  (req:any, res:Response, next:NextFunction) => {
     const data = { email: req.body.email, password: req.body.password };
     const userData = new userModel(data);
 
-    const result = userData.save()
-        .then(data => data)
+    return userData.save()
+        .then(result => result)
         .catch(err => {
             const error = new Error(err);
             error.message = "There is some issue in creating this account";
@@ -48,44 +48,37 @@ export const insertUser =  (req:any, res:Response, next:NextFunction) => {
             return next(error);
         });
 
-    return result;
-
 }
     
 export const fetchUser = () => {
-    const result = userModel.find({})
+    return userModel.find({})
         .then(data => data)       
         .catch(err => err)
-    return result;
 }
     
 export const fetchUserByEmail = (req:Request ,res:Response, next:NextFunction) => {
-    const result = userModel.find({ email: req.params.key })
-        .then(data => data)       
+    return userModel.find({ email: req.params.key })
+        .then(result => result)       
         .catch(err => {
             return next(Error(err));
         });
-    return result;
 }
     
 export const updateUser = (req:Request, res:Response, next:NextFunction) => {
     const data = { email: req.body.email, password: req.body.password };                
     const filter = { email: req.params.key };
     
-    const result = userModel.updateOne(filter, data)
-        .then(data => data)       
+    return userModel.updateOne(filter, data)
+        .then(result => result)       
         .catch(err => {
             return next(Error(err));
         });
-    return result;        
 }
     
 export const deleteUser = (req:Request, res:Response, next:NextFunction) => {
-    const result = userModel.deleteOne({ email: req.params.key })
+    return userModel.deleteOne({ email: req.params.key })
         .then(data => data)       
         .catch(err => {
             return next(Error(err));
         });
-    return result;        
-
 }    
