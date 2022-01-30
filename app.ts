@@ -4,12 +4,18 @@ import bodyParser from 'body-parser';
 import { graphqlHTTP } from 'express-graphql';
 import { userSchema } from './graphql/userSchema';
 import * as graphqlResolver from './graphql/userResolver';
+import helmet from 'helmet';
+
 // import csurf from 'csurf';
 
-import './db'
+import './database'
 
-const app = express();
+let exp = express();
+exp.disable("x-powered-by");
 
+let app = express(); // Compliant
+app.use(helmet.hidePoweredBy());
+    
 // const csrf = csurf();
 // app.use(csrf);
 
