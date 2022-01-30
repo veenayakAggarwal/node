@@ -60,7 +60,6 @@ export const login = async ({ userInput }, req) => {
                     if (!valid) { 
                         throw new Error("You have entered wrong password.");
                     }
-                    req.ses
                     return {
                         userId: data._id.toString(),
                         token: createToken(data._id, data.email)
