@@ -13,8 +13,7 @@ interface Token {
       
 }
 export const getUsers = async () => {
-    const result = await User.find({});
-    return result;
+    return await User.find({});    
 }
 
 export const createUser = async ({ userInput }, req) => {
@@ -25,20 +24,17 @@ export const createUser = async ({ userInput }, req) => {
         throw new Error("Email is invalid.");
     }
 
-    const result = User.findOne({ email })
-        .then(data => {
-            if (data) {
-                throw new Error("User already exists.");
-            }
-            return hashPassword(password)
-                .then(password => {
-                    const data = { email, password };
-                    const user = new User(data);
-                    return user.save();
-                });;
-        });        
+    const result = await User.findOne({ email });
 
-    return result;
+    if (result) {
+        throw new Error("User already exists.");
+    }
+    return hashPassword(password)
+        .then(hashedValue => {
+            const data = { email, hashedValue };
+            const user = new User(data);
+            return user.save();
+        });;
 
 }
 
