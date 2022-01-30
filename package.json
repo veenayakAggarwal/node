@@ -44,5 +44,27 @@
     "nodemon": "^2.0.15",
     "nyc": "^15.1.0",
     "typescript": "^4.5.5"
+  },
+  "nyc": {
+    "include": [
+      "**/*.ts"
+    ],
+    "exclude": [
+      "**/*.d.ts"
+    ],
+    "extension": [
+      ".ts"
+    ],
+    "require": [
+      "ts-node/register"
+    ],
+    "reporter": [
+      "text",
+      "html",
+      "lcov"
+    ],
+    "sourceMap": true,
+    "instrument": true,
+    "all": true
   }
 }
