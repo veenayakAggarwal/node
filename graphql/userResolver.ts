@@ -29,12 +29,10 @@ export const createUser = async ({ userInput }, req) => {
     if (result) {
         throw new Error("User already exists.");
     }
-    return hashPassword(password)
-        .then(hashedValue => {
-            const data = { email, hashedValue };
-            const user = new User(data);
-            return user.save();
-        });
+    const hashedValue = await hashPassword(password);
+    const user = new User({ email, password: hashedValue });
+            
+    return user.save();
 
 }
 
