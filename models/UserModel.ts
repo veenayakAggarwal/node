@@ -54,38 +54,36 @@ export const fetchUser = async () => {
     return userModel.find({});
 }
     
-export const fetchUserByEmail = (req:any ,res:any, next:any) => {
-    return userModel.find({ email: req.params.key }, (err: any, data: any) => {
-        if (err) { 
-            const error = new Error(err);
-            error.message = 'Can not fetch data.' ;
-            return next(err);
-        }
-        return data;
-    });
+export const fetchUserByEmail = async (req:any ,res:any, next:any) => {
+    const result: any = await userModel.findOne({ email: req.params.key });
+    if (result.errors) {
+        const error = new Error(result.errors);
+        error.message = 'Can not fetch data.' ;
+        return next(error);
+    }
+    return result;
 }
     
-export const updateUser = (req:any, res:any, next:any) => {
+export const updateUser = async (req:any, res:any, next:any) => {
     const body = { email: req.body.email, password: req.body.password };                
     const filter = { email: req.params.key };
     
-    return userModel.updateOne(filter, body, (err: any, data: any) => {
-        if (err) { 
-            const error = new Error(err);
-            error.message = 'Can not update data.' ;
-            return next(err);
-        }
-        return data;
-    });
+    const result: any = await userModel.updateOne(filter, body);
+    if (result.errors) {
+        const error = new Error(result.errors);
+        error.message = 'Can not update data.' ;
+        return next(error);
+    }
+    
+    return result;
 }
     
-export const deleteUser = (req:any, res:any, next:any) => {
-    return userModel.deleteOne({ email: req.params.key }, (err:any , data: any) => {
-        if (err) { 
-            const error = new Error(err);
-            error.message = 'Can not delete data.' ;
-            return next(err);
-        }
-        return data;
-    });
+export const deleteUser = async (req:any, res:any, next:any) => {
+    const result: any = await userModel.deleteOne({ email: req.params.key });
+    if (result.errors) {
+        const error = new Error(result.errors);
+        error.message = 'Can not delete data.' ;
+        return next(error);
+    }
+    return result;
 }    
