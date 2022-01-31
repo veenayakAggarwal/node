@@ -38,22 +38,25 @@ describe('User Model Tests', () => {
                 password: 'pwd'
             }
         }
-    
-        const result: any = await insertUser(req, {}, () => { });
+        const next = (data: any) => { 
+            console.log(data + 'in error');
+            return data;
+        }
+        const result: any = await insertUser(req, {}, next);
     
         expect(result.email).to.equal(req.body.email);
         expect(result.password).to.equal(req.body.password);
 
-        mock.throws({
-            index: 0,
-            message: 'Error'
+        mock.returns({
+            error: {
+                message: 'asd',
+                index: 0
+            },
         });
-        
-        insertUser(req, {}, () => { })
-            .catch(err => {
-                expect(err.message).to.equal('Error');
-            });
-    
+
+        const errorResult: any = await insertUser(req, {}, next);
+        expect(errorResult.error.message).to.equal('asd');
+        expect(errorResult.error.index).to.equal(0);
 
         mock.restore();
         

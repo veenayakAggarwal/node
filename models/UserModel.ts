@@ -35,8 +35,11 @@ export const insertUser = async (req: any, res: any, next: any) => {
     const body = { email: req.body.email, password: req.body.password };
     const userData = new userModel(body);
 
-    return userData.save((err: any, data: any) => { 
+    return userData.save((err: any, data: any) => {
+        console.log(err + 'err');
+        console.log(data + 'data');
         if (err) { 
+
             const error = new Error(err);
             error.message = "There is some issue in creating this account";
                 
