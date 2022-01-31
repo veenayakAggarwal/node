@@ -1,13 +1,12 @@
 import { expect } from 'chai';
-import { compareHash, createToken, createUser, getUsers, hashPassword, login, validateToken } from './userResolver';
-import { stub, mock } from 'sinon';
+import {  createToken, createUser, getUsers, hashPassword, login, validateToken } from './userResolver';
+import { stub } from 'sinon';
 import * as userModel from '../models/UserModel';
-import  * as jwt from 'jsonwebtoken';
 
 const User = userModel.userModel;
 
 
-describe('User Tests', () => { 
+describe('User Resolver Tests', () => { 
     it('getUsers', async () => {
     
         let mock:any = stub(User, 'find');
@@ -85,7 +84,6 @@ describe('User Tests', () => {
             password: 'pwd'
         };
 
-        
         const validInput = {
             email: 'test@gmail.com',
             password: 'pwd'
