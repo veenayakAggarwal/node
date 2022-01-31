@@ -38,25 +38,32 @@ describe('User Model Tests', () => {
                 password: 'pwd'
             }
         }
-        const next = (data: any) => { 
-            console.log(data + 'in error');
-            return data;
-        }
-        const result: any = await insertUser(req, {}, next);
-    
+        const result: any = await insertUser(req, {}, () => { });
         expect(result.email).to.equal(req.body.email);
         expect(result.password).to.equal(req.body.password);
 
         mock.returns({
-            error: {
-                message: 'asd',
-                index: 0
+            errors: {
+                messsage: '',
             },
+            index: 0
+
         });
 
+        const next = (data: any) => { 
+            return data;
+        }
         const errorResult: any = await insertUser(req, {}, next);
-        expect(errorResult.error.message).to.equal('asd');
-        expect(errorResult.error.index).to.equal(0);
+        expect(errorResult.message).to.equal('User already exists');
+
+        mock.returns({
+            errors: {
+                messsage: '',
+            }
+        });
+
+        const errorResult2: any = await insertUser(req, {}, next);
+        expect(errorResult2.message).to.equal('There is some issue in creating this account');
 
         mock.restore();
         

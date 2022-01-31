@@ -35,21 +35,19 @@ export const insertUser = async (req: any, res: any, next: any) => {
     const body = { email: req.body.email, password: req.body.password };
     const userData = new userModel(body);
 
-    return userData.save((err: any, data: any) => {
-        console.log(err + 'err');
-        console.log(data + 'data');
-        if (err) { 
-
-            const error = new Error(err);
-            error.message = "There is some issue in creating this account";
-                
-            if (err.index === 0) { 
-                error.message = "User already exists";
-            }                        
-            return next(error);
-        }
-        return data;
-    });
+    const result: any = await userData.save();
+    if (result.errors) {
+        const error = new Error(result.errors);
+        error.message = "There is some issue in creating this account";
+            
+        if (result.index === 0) { 
+            error.message = "User already exists";
+        }                        
+        
+        return next(error);
+    }
+        
+    return result;
 }
     
 export const fetchUser = async () => {

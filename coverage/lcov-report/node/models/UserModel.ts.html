@@ -23,30 +23,30 @@
         <div class='clearfix'>
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">39.58% </span>
+                <span class="strong">56.52% </span>
                 <span class="quiet">Statements</span>
-                <span class='fraction'>19/48</span>
+                <span class='fraction'>26/46</span>
             </div>
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">0% </span>
+                <span class="strong">40% </span>
                 <span class="quiet">Branches</span>
-                <span class='fraction'>0/10</span>
+                <span class='fraction'>4/10</span>
             </div>
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">36.36% </span>
+                <span class="strong">40% </span>
                 <span class="quiet">Functions</span>
-                <span class='fraction'>4/11</span>
+                <span class='fraction'>4/10</span>
             </div>
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">29.26% </span>
+                <span class="strong">48.71% </span>
                 <span class="quiet">Lines</span>
-                <span class='fraction'>12/41</span>
+                <span class='fraction'>19/39</span>
             </div>
         
             
@@ -61,7 +61,7 @@
             </div>
         </template>
     </div>
-    <div class='status-line low'></div>
+    <div class='status-line medium'></div>
     <pre><table class="coverage">
 <tr><td class="line-count quiet"><a name='L1'></a><a href='#L1'>1</a>
 <a name='L2'></a><a href='#L2'>2</a>
@@ -154,9 +154,7 @@
 <a name='L89'></a><a href='#L89'>89</a>
 <a name='L90'></a><a href='#L90'>90</a>
 <a name='L91'></a><a href='#L91'>91</a>
-<a name='L92'></a><a href='#L92'>92</a>
-<a name='L93'></a><a href='#L93'>93</a>
-<a name='L94'></a><a href='#L94'>94</a></td><td class="line-coverage quiet"><span class="cline-any cline-yes">1x</span>
+<a name='L92'></a><a href='#L92'>92</a></td><td class="line-coverage quiet"><span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -189,25 +187,23 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">3x</span>
+<span class="cline-any cline-yes">3x</span>
+<span class="cline-any cline-yes">3x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">3x</span>
+<span class="cline-any cline-yes">3x</span>
 <span class="cline-any cline-yes">2x</span>
 <span class="cline-any cline-yes">2x</span>
-<span class="cline-any cline-yes">2x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">2x</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-yes">2x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">1x</span>
@@ -286,21 +282,19 @@ export const insertUser = async (req: any, res: any, next: any) =&gt; {
     const body = { email: req.body.email, password: req.body.password };
     const userData = new userModel(body);
 &nbsp;
-    return userData.save(<span class="fstat-no" title="function not covered" >(e</span>rr: any, data: any) =&gt; {
-<span class="cstat-no" title="statement not covered" >        console.log(err + 'err');</span>
-<span class="cstat-no" title="statement not covered" >        console.log(data + 'data');</span>
-<span class="cstat-no" title="statement not covered" >        if (err) { </span>
-&nbsp;
-            const error = <span class="cstat-no" title="statement not covered" >new Error(err);</span>
-<span class="cstat-no" title="statement not covered" >            error.message = "There is some issue in creating this account";</span>
-                
-<span class="cstat-no" title="statement not covered" >            if (err.index === 0) { </span>
-<span class="cstat-no" title="statement not covered" >                error.message = "User already exists";</span>
-            }                        
-<span class="cstat-no" title="statement not covered" >            return next(error);</span>
-        }
-<span class="cstat-no" title="statement not covered" >        return data;</span>
-    });
+    const result: any = await userData.save();
+    if (result.errors) {
+        const error = new Error(result.errors);
+        error.message = "There is some issue in creating this account";
+            
+        if (result.index === 0) { 
+            error.message = "User already exists";
+        }                        
+        
+        return next(error);
+    }
+        
+    return result;
 }
     
 export const fetchUser = async () =&gt; {
@@ -349,7 +343,7 @@ export const deleteUser = <span class="fstat-no" title="function not covered" >(
             <div class='footer quiet pad2 space-top1 center small'>
                 Code coverage generated by
                 <a href="https://istanbul.js.org/" target="_blank" rel="noopener noreferrer">istanbul</a>
-                at Tue Feb 01 2022 02:57:50 GMT+0530 (India Standard Time)
+                at Tue Feb 01 2022 03:35:40 GMT+0530 (India Standard Time)
             </div>
         <script src="../../prettify.js"></script>
         <script>
