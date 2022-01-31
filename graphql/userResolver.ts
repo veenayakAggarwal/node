@@ -44,22 +44,22 @@ export const login = async ({ userInput }, req) => {
         throw new Error("Email is invalid.");
     }
 
-    return User.findOne({ email })
-        .then(data => {
-            if (!data) {
-                throw new Error("User does not exist.");            
-            }
-            return compareHash(password, data.password)
-                .then(valid => {
-                    if (!valid) { 
-                        throw new Error("You have entered wrong password.");
-                    }
-                    return {
-                        userId: data._id.toString(),
-                        token: createToken(data._id, data.email)
-                    }
-                });
-        });        
+    const result = await User.findOne({ email });
+
+    if (!result) {
+        throw new Error("User does not exist.");            
+    }
+    const valid = compareHash(password, result.password);
+
+    if (!valid) { 
+        throw new Error("You have entered wrong password.");
+    }
+    return {
+        userId: result._id.toString(),
+        token: createToken(result._id, result.email)
+    
+    }
+     
 }
 
 export const validateToken = ({ userInput }, req) => { 
@@ -70,7 +70,7 @@ export const validateToken = ({ userInput }, req) => {
 
 } 
 
-const createToken = (id:Object, email: string) => { 
+export const createToken = (id:Object, email: string) => { 
     return jwt.sign({
         userId: id.toString(),
         email: email

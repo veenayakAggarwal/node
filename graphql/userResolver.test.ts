@@ -1,7 +1,8 @@
 import { expect } from 'chai';
-import { createUser, getUsers, validateToken } from './userResolver';
-import { stub } from 'sinon';
+import { createToken, createUser, getUsers, login, validateToken } from './userResolver';
+import { stub, mock } from 'sinon';
 import * as userModel from '../models/UserModel';
+import  * as jwt from 'jsonwebtoken';
 
 const User = userModel.userModel;
 
@@ -70,6 +71,45 @@ describe('User Tests', () => {
         
     });
 
+    it('login', async () => {
+    
+        let mockFind: any = stub(User, 'findOne');
+
+        mockFind.throws();
+
+        mockFind.returns(false); 
+
+        const invalidInput = {
+            email: 'test',
+            password: 'pwd'
+        };
+
+        const validInput = {
+            email: 'test@gmail.com',
+            password: 'pwd'
+        };
+
+        login({ userInput: invalidInput }, 'sdf')
+            .catch(err => {
+                expect(err.message).to.equal('User does not exist.');    
+            });
+
+        mockFind.returns({
+            _id: 'id',
+            email: 'test@gmail.com',
+            password: 'pwd'
+        }); 
+
+        const result = await login({ userInput: validInput }, 'sdf');
+        const token = createToken('id', 'test@gmail.com');
+
+        expect(result.token).to.equal(token);
+        expect(result.userId).to.equal('id');
+
+        mockFind.restore();
+        
+    });
+
     // it('validateUser', async () => {
     
     //     const validInput = {
@@ -78,7 +118,6 @@ describe('User Tests', () => {
     //     };
 
     //     let result: any = validateToken({ userInput: validInput }, 'sdf');
-
 
         
     // });
