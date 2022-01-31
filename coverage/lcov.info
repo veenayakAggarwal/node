@@ -253,7 +253,7 @@ BRF:0
 BRH:0
 end_of_record
 TN:
-SF:graphql/userResolver.test.ts
+SF:graphql/UserResolver.test.ts
 FN:27,(anonymous_13)
 FN:28,(anonymous_14)
 FN:28,(anonymous_15)
@@ -350,7 +350,7 @@ BRF:0
 BRH:0
 end_of_record
 TN:
-SF:graphql/userResolver.ts
+SF:graphql/UserResolver.ts
 FN:14,(anonymous_14)
 FN:14,(anonymous_15)
 FN:18,(anonymous_16)
@@ -413,7 +413,7 @@ BRF:10
 BRH:10
 end_of_record
 TN:
-SF:graphql/userSchema.ts
+SF:graphql/UserSchema.ts
 FNF:0
 FNH:0
 DA:1,0

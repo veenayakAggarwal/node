@@ -1,5 +1,5 @@
 import { expect } from 'chai';
-import {  createUser, getUsers, login, validateToken } from './userResolver';
+import {  createUser, getUsers, login, validateToken } from './UserResolver';
 import { stub, mock } from 'sinon';
 import * as userModel from '../models/UserModel';
 import { createToken, hashPassword } from '../helper';

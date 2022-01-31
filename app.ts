@@ -2,8 +2,8 @@ import express from "express";
 import routes from './routes/routes';
 import bodyParser from 'body-parser';
 import { graphqlHTTP } from 'express-graphql';
-import { userSchema } from './graphql/userSchema';
-import * as graphqlResolver from './graphql/userResolver';
+import { userSchema } from './graphql/UserSchema';
+import * as graphqlResolver from './graphql/UserResolver';
 import helmet from 'helmet';
 
 import './database'
