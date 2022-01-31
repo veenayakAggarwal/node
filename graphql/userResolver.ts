@@ -48,7 +48,7 @@ export const login = async ({ userInput }, req) => {
     if (!result) {
         throw new Error("User does not exist.");            
     }
-    const valid = compareHash(password, result.password);
+    const valid = await compareHash(password, result.password);
 
     if (!valid) { 
         throw new Error("You have entered wrong password.");
