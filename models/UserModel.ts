@@ -32,8 +32,8 @@ const userSchema = new Schema<User>({
 export const userModel = model<User>('users', userSchema);
 
 export const insertUser = async (req:any, res:any, next:any) => {
-    const data = { email: req.body.email, password: req.body.password };
-    const userData = new userModel(data);
+    const body = { email: req.body.email, password: req.body.password };
+    const userData = new userModel(body);
 
     return userData.save((err: any, data: any) => { 
         if (err) { 
@@ -50,32 +50,35 @@ export const insertUser = async (req:any, res:any, next:any) => {
 }
     
 export const fetchUser = async () => {
-    return await userModel.find({});
+    return userModel.find({});
 }
     
 export const fetchUserByEmail = (req:any ,res:any, next:any) => {
-    return userModel.find({ email: req.params.key })
-        .then(result => result)       
-        .catch(err => {
-            return next(Error(err));
-        });
+    return userModel.find({ email: req.params.key }, (err, data) => {
+        if (err) { 
+            return next(err);
+        }
+        return data;
+    });
 }
     
 export const updateUser = (req:any, res:any, next:any) => {
-    const data = { email: req.body.email, password: req.body.password };                
+    const body = { email: req.body.email, password: req.body.password };                
     const filter = { email: req.params.key };
     
-    return userModel.updateOne(filter, data)
-        .then(result => result)       
-        .catch(err => {
-            return next(Error(err));
-        });
+    return userModel.updateOne(filter, body, (err, data) => {
+        if (err) { 
+            return next(err);
+        }
+        return data;
+    });
 }
     
 export const deleteUser = (req:any, res:any, next:any) => {
-    return userModel.deleteOne({ email: req.params.key })
-        .then(data => data)       
-        .catch(err => {
-            return next(Error(err));
-        });
+    return userModel.deleteOne({ email: req.params.key }, (err, data) => {
+        if (err) { 
+            return next(err);
+        }
+        return data;
+    });
 }    

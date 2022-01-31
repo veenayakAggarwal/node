@@ -5,7 +5,7 @@ import { fetchUser, fetchUserByEmail, insertUser, updateUser, deleteUser, userMo
 const User = userModel;
 
 describe('User Model Tests', () => {
-    it('Fetch Users', async () => {
+    it('Fetch User', async () => {
     
         let mock: any = stub(User, 'find');
         
@@ -43,6 +43,82 @@ describe('User Model Tests', () => {
     
         expect(result.email).to.equal(req.body.email);
         expect(result.password).to.equal(req.body.password);
+
+        mock.restore();
+        
+    });
+
+    it('Update User', async () => {
+    
+        let mock: any = stub(User, 'updateOne');
+
+        mock.returns({
+            email: 'test@gmail.com',
+            password: 'pwd'
+        });
+        
+        const req = {
+            body: {
+                email: 'test@gmail.com',
+                password: 'pwd'
+            },
+            params: {
+                key: 'test@gmail.com'
+            }
+        }
+    
+        const result: any = await updateUser(req, {}, () => { });
+    
+        expect(result.email).to.equal(req.body.email);
+        expect(result.password).to.equal(req.body.password);
+
+        mock.restore();
+        
+    });
+
+    it('Delete User', async () => {
+    
+        let mock: any = stub(User, 'deleteOne');
+
+        mock.returns({
+            email: 'test@gmail.com',
+            password: 'pwd'
+        });
+        
+        const req = {
+            params: {
+                key: 'test@gmail.com',
+            }
+        }
+    
+        const result: any = await deleteUser(req, {}, () => { });
+    
+        expect(result.email).to.equal('test@gmail.com');
+        expect(result.password).to.equal('pwd');
+
+        mock.restore();
+        
+    });
+
+    it('Fetch User By Email', async () => {
+    
+        let mock: any = stub(User, 'find');
+
+        mock.returns({
+            email: 'test@gmail.com',
+            password: 'pwd'
+        });
+        
+        const req = {
+            params: {
+                key: 'test@gmail.com',
+            }
+        }
+    
+        const result: any = await fetchUserByEmail(req, {}, () => { });
+    
+        expect(result.email).to.equal('test@gmail.com');
+        expect(result.password).to.equal('pwd');
 
         mock.restore();
         
