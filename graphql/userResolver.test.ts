@@ -1,5 +1,5 @@
 import { expect } from 'chai';
-import { createToken, createUser, getUsers, login, validateToken } from './userResolver';
+import { compareHash, createToken, createUser, getUsers, hashPassword, login, validateToken } from './userResolver';
 import { stub, mock } from 'sinon';
 import * as userModel from '../models/UserModel';
 import  * as jwt from 'jsonwebtoken';
@@ -78,12 +78,14 @@ describe('User Tests', () => {
         mockFind.throws();
 
         mockFind.returns(false); 
+        const hashedPwd = await hashPassword('pwd');
 
         const invalidInput = {
             email: 'test',
             password: 'pwd'
         };
 
+        
         const validInput = {
             email: 'test@gmail.com',
             password: 'pwd'
@@ -91,15 +93,30 @@ describe('User Tests', () => {
 
         login({ userInput: invalidInput }, 'sdf')
             .catch(err => {
+                expect(err.message).to.equal('Email is invalid.');    
+            });
+
+        login({ userInput: validInput }, 'sdf')
+            .catch(err => {
                 expect(err.message).to.equal('User does not exist.');    
             });
+        
+        const wrongPwd = {
+            email: 'test@gmail.com',
+            password: 'pw'
+        };
 
         mockFind.returns({
             _id: 'id',
             email: 'test@gmail.com',
-            password: 'pwd'
+            password: hashedPwd
         }); 
 
+        login({ userInput: wrongPwd }, 'sdf')
+            .catch(err => {
+                expect(err.message).to.equal('You have entered wrong password.');
+            });
+        
         const result = await login({ userInput: validInput }, 'sdf');
         const token = createToken('id', 'test@gmail.com');
 
