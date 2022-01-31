@@ -81,7 +81,7 @@ export const createToken = (userId:string, email: string) => {
     )
 }   
 
-const compareToken = (userId:string, token: string) => { 
+export const compareToken = (userId:string, token: string) => { 
     const decoded: any = jwt.verify(token, 'veenayakAggarwal1998');
     if (decoded.userId === userId.toString()) { 
         return true;

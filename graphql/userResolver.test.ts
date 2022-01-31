@@ -127,17 +127,27 @@ describe('User Tests', () => {
         
     });
 
-    // it('validateUser', async () => {
-    
-    //     const validInput = {
-    //         token: 'token',
-    //         userId: 'test'
-    //     };
+    it('validateUser', async () => {
+        const token = createToken('id', 'test@gmail.com');
 
-    //     let result: any = validateToken({ userInput: validInput }, 'sdf');
+        const validInput = {
+            token: token,
+            userId: 'id'
+        };
 
-        
-    // });
+        const invalidInpput = {
+            token: token,
+            userId: 'i'
+        };
+
+        const result = validateToken({ userInput: validInput }, 'sdf');
+        expect(result.isValid).to.equal(true);
+
+        const result2 = validateToken({ userInput: invalidInpput }, 'sdf');
+        expect(result2.isValid).to.equal(false);
+
+            
+    });
 
 
 })

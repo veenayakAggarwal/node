@@ -23,30 +23,30 @@
         <div class='clearfix'>
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">88.46% </span>
+                <span class="strong">100% </span>
                 <span class="quiet">Statements</span>
-                <span class='fraction'>46/52</span>
+                <span class='fraction'>53/53</span>
             </div>
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">83.33% </span>
+                <span class="strong">100% </span>
                 <span class="quiet">Branches</span>
-                <span class='fraction'>10/12</span>
+                <span class='fraction'>12/12</span>
             </div>
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">81.81% </span>
+                <span class="strong">100% </span>
                 <span class="quiet">Functions</span>
-                <span class='fraction'>9/11</span>
+                <span class='fraction'>11/11</span>
             </div>
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">85.71% </span>
+                <span class="strong">100% </span>
                 <span class="quiet">Lines</span>
-                <span class='fraction'>36/42</span>
+                <span class='fraction'>42/42</span>
             </div>
         
             
@@ -225,8 +225,19 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-yes">2x</span>
+<span class="cline-any cline-yes">2x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">3x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -234,21 +245,10 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-yes">2x</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">2x</span>
+<span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">1x</span>
@@ -321,9 +321,9 @@ export const login = async ({ userInput }, req) =&gt; {
      
 }
 &nbsp;
-export const validateToken = <span class="fstat-no" title="function not covered" >({</span> userInput }, req) =&gt; { 
-    const { token, userId } = <span class="cstat-no" title="statement not covered" >userInput;</span>
-<span class="cstat-no" title="statement not covered" >    return {</span>
+export const validateToken = ({ userInput }, req) =&gt; { 
+    const { token, userId } = userInput;
+    return {
         isValid: compareToken(userId, token)
     } 
 &nbsp;
@@ -340,12 +340,12 @@ export const createToken = (userId:string, email: string) =&gt; {
     )
 }   
 &nbsp;
-const compareToken = <span class="fstat-no" title="function not covered" >(u</span>serId:string, token: string) =&gt; { 
-    const decoded: any = <span class="cstat-no" title="statement not covered" >jwt.verify(token, 'veenayakAggarwal1998');</span>
-<span class="cstat-no" title="statement not covered" >    if (decoded.userId === userId.toString()) { </span>
-<span class="cstat-no" title="statement not covered" >        return true;</span>
+export const compareToken = (userId:string, token: string) =&gt; { 
+    const decoded: any = jwt.verify(token, 'veenayakAggarwal1998');
+    if (decoded.userId === userId.toString()) { 
+        return true;
     }
-<span class="cstat-no" title="statement not covered" >    return false;</span>
+    return false;
 }   
 &nbsp;
 export const hashPassword = (password:string) =&gt; { 
@@ -361,7 +361,7 @@ export const compareHash = (inputPassword:string, realPassword:string) =&gt; {
             <div class='footer quiet pad2 space-top1 center small'>
                 Code coverage generated by
                 <a href="https://istanbul.js.org/" target="_blank" rel="noopener noreferrer">istanbul</a>
-                at Mon Jan 31 2022 22:32:06 GMT+0530 (India Standard Time)
+                at Mon Jan 31 2022 23:07:55 GMT+0530 (India Standard Time)
             </div>
         <script src="../../prettify.js"></script>
         <script>
