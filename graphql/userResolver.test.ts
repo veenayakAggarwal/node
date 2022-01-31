@@ -137,8 +137,8 @@ describe('User Resolver Tests', () => {
         const validResult = validateToken({ userInput: data }, 'sdf');
         expect(validResult.isValid).to.equal(true);
 
-        // const invalidResult = validateToken({ userInput: invalidData }, 'sdf');
-        // expect(invalidResult.isValid).to.equal(false);
+        const invalidResult = validateToken({ userInput: invalidData }, 'sdf');
+        expect(invalidResult.isValid).to.equal(false);
 
     });
 
