@@ -31,7 +31,7 @@ const userSchema = new Schema<User>({
 
 export const userModel = model<User>('users', userSchema);
 
-export const insertUser = async (req:any, res:any, next:any) => {
+export const insertUser = async (req: any, res: any, next: any) => {
     const body = { email: req.body.email, password: req.body.password };
     const userData = new userModel(body);
 
@@ -54,8 +54,10 @@ export const fetchUser = async () => {
 }
     
 export const fetchUserByEmail = (req:any ,res:any, next:any) => {
-    return userModel.find({ email: req.params.key }, (err, data) => {
+    return userModel.find({ email: req.params.key }, (err: any, data: any) => {
         if (err) { 
+            const error = new Error(err);
+            error.message = 'Can not fetch data.' ;
             return next(err);
         }
         return data;
@@ -66,8 +68,10 @@ export const updateUser = (req:any, res:any, next:any) => {
     const body = { email: req.body.email, password: req.body.password };                
     const filter = { email: req.params.key };
     
-    return userModel.updateOne(filter, body, (err, data) => {
+    return userModel.updateOne(filter, body, (err: any, data: any) => {
         if (err) { 
+            const error = new Error(err);
+            error.message = 'Can not update data.' ;
             return next(err);
         }
         return data;
@@ -75,8 +79,10 @@ export const updateUser = (req:any, res:any, next:any) => {
 }
     
 export const deleteUser = (req:any, res:any, next:any) => {
-    return userModel.deleteOne({ email: req.params.key }, (err, data) => {
+    return userModel.deleteOne({ email: req.params.key }, (err:any , data: any) => {
         if (err) { 
+            const error = new Error(err);
+            error.message = 'Can not delete data.' ;
             return next(err);
         }
         return data;

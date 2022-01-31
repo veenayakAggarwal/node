@@ -44,85 +44,96 @@ describe('User Model Tests', () => {
         expect(result.email).to.equal(req.body.email);
         expect(result.password).to.equal(req.body.password);
 
-        mock.restore();
-        
-    });
-
-    it('Update User', async () => {
-    
-        let mock: any = stub(User, 'updateOne');
-
-        mock.returns({
-            email: 'test@gmail.com',
-            password: 'pwd'
+        mock.throws({
+            index: 0,
+            message: 'Error'
         });
         
-        const req = {
-            body: {
-                email: 'test@gmail.com',
-                password: 'pwd'
-            },
-            params: {
-                key: 'test@gmail.com'
-            }
-        }
+        insertUser(req, {}, () => { })
+            .catch(err => {
+                expect(err.message).to.equal('Error');
+            });
     
-        const result: any = await updateUser(req, {}, () => { });
-    
-        expect(result.email).to.equal(req.body.email);
-        expect(result.password).to.equal(req.body.password);
 
         mock.restore();
         
     });
 
-    it('Delete User', async () => {
+    // it('Update User', async () => {
     
-        let mock: any = stub(User, 'deleteOne');
+    //     let mock: any = stub(User, 'updateOne');
 
-        mock.returns({
-            email: 'test@gmail.com',
-            password: 'pwd'
-        });
+    //     mock.returns({
+    //         email: 'test@gmail.com',
+    //         password: 'pwd'
+    //     });
         
-        const req = {
-            params: {
-                key: 'test@gmail.com',
-            }
-        }
+    //     const req = {
+    //         body: {
+    //             email: 'test@gmail.com',
+    //             password: 'pwd'
+    //         },
+    //         params: {
+    //             key: 'test@gmail.com'
+    //         }
+    //     }
     
-        const result: any = await deleteUser(req, {}, () => { });
+    //     const result: any = await updateUser(req, {}, () => { });
     
-        expect(result.email).to.equal('test@gmail.com');
-        expect(result.password).to.equal('pwd');
+    //     expect(result.email).to.equal(req.body.email);
+    //     expect(result.password).to.equal(req.body.password);
 
-        mock.restore();
+    //     mock.restore();
         
-    });
+    // });
 
-    it('Fetch User By Email', async () => {
+    // it('Delete User', async () => {
     
-        let mock: any = stub(User, 'find');
+    //     let mock: any = stub(User, 'deleteOne');
 
-        mock.returns({
-            email: 'test@gmail.com',
-            password: 'pwd'
-        });
+    //     mock.returns({
+    //         email: 'test@gmail.com',
+    //         password: 'pwd'
+    //     });
         
-        const req = {
-            params: {
-                key: 'test@gmail.com',
-            }
-        }
+    //     const req = {
+    //         params: {
+    //             key: 'test@gmail.com',
+    //         }
+    //     }
     
-        const result: any = await fetchUserByEmail(req, {}, () => { });
+    //     const result: any = await deleteUser(req, {}, () => { });
     
-        expect(result.email).to.equal('test@gmail.com');
-        expect(result.password).to.equal('pwd');
+    //     expect(result.email).to.equal('test@gmail.com');
+    //     expect(result.password).to.equal('pwd');
 
-        mock.restore();
+    //     mock.restore();
         
-    });
+    // });
+
+    // it('Fetch User By Email', async () => {
+    
+    //     let mock: any = stub(User, 'find');
+
+    //     mock.returns({
+    //         email: 'test@gmail.com',
+    //         password: 'pwd'
+    //     });
+        
+    //     const req = {
+    //         params: {
+    //             key: 'test@gmail.com',
+    //         }
+    //     }
+    
+    //     const result: any = await fetchUserByEmail(req, {}, () => { });
+    
+    //     expect(result.email).to.equal('test@gmail.com');
+    //     expect(result.password).to.equal('pwd');
+
+    //     mock.restore();
+        
+    // });
 
 });
 

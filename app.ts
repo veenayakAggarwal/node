@@ -6,18 +6,13 @@ import { userSchema } from './graphql/userSchema';
 import * as graphqlResolver from './graphql/userResolver';
 import helmet from 'helmet';
 
-// import csurf from 'csurf';
-
 import './database'
 
 let exp = express();
 exp.disable("x-powered-by");
 
-let app = express(); // Compliant
+let app = express(); 
 app.use(helmet.hidePoweredBy());
-    
-// const csrf = csurf();
-// app.use(csrf);
 
 app.use(bodyParser.json());
 

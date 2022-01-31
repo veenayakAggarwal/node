@@ -1,7 +1,6 @@
 import validator from 'validator';
 import * as userModel from '../models/UserModel';
-import bcrypt from 'bcryptjs';
-import  * as jwt from 'jsonwebtoken';
+import { compareHash, compareToken, createToken, hashPassword } from '../helper';
 
 const User = userModel.userModel;
 
@@ -49,7 +48,7 @@ export const login = async ({ userInput }, req) => {
     if (!result) {
         throw new Error("User does not exist.");            
     }
-    const valid = await compareHash(password, result.password);
+    const valid = compareHash(password, result.password);
 
     if (!valid) { 
         throw new Error("You have entered wrong password.");
@@ -57,42 +56,13 @@ export const login = async ({ userInput }, req) => {
     return {
         userId: result._id.toString(),
         token: createToken(result._id.toString(), result.email)
-    
     }
-     
 }
 
-export const validateToken = ({ userInput }, req) => { 
+export const validateToken = ({ userInput }, req) => {
     const { token, userId } = userInput;
     return {
         isValid: compareToken(userId, token)
     } 
 
 } 
-
-export const createToken = (userId:string, email: string) => { 
-    return jwt.sign({
-        userId: userId,
-        email: email
-    }, 'veenayakAggarwal1998',
-        {
-            expiresIn: '1h'
-        }
-    )
-}   
-
-export const compareToken = (userId:string, token: string) => { 
-    const decoded: any = jwt.verify(token, 'veenayakAggarwal1998');
-    if (decoded.userId === userId.toString()) { 
-        return true;
-    }
-    return false;
-}   
-
-export const hashPassword = (password:string) => { 
-    return bcrypt.hash(password, 12);
-}
-
-export const compareHash = (inputPassword:string, realPassword:string) => { 
-    return bcrypt.compare(inputPassword, realPassword)
-}

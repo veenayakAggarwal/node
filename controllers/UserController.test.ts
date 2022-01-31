@@ -5,6 +5,12 @@ import * as userController from './UserController';
 
 const User = userModel;
 
+const validData = {
+    _id: 'id',
+    email: 'test@gmail.com',
+    password: 'pwd'
+}
+
 describe('User Controller Tests', () => { 
     it('Get User', async () => {
         const res = { 
@@ -17,14 +23,13 @@ describe('User Controller Tests', () => {
         mock.throws();
 
         mock.returns({
-            email: 'email',
-            password: 'pwd'
+            ...validData
         });
     
         const result: any = await userController.getUser({}, res, () => { });
         
-        expect(result.email).to.equal('email');    
-        expect(result.password).to.equal('pwd');   
+        expect(result.email).to.equal(validData.email);    
+        expect(result.password).to.equal(validData.password);   
         
         mock.restore();
 
@@ -41,14 +46,13 @@ describe('User Controller Tests', () => {
         mock.throws();
 
         mock.returns({
-            email: 'email',
-            password: 'pwd'
+            ...validData
         });
     
         const result: any = await userController.getUserByKey({}, res, () => { });
         
-        expect(result.email).to.equal('email');    
-        expect(result.password).to.equal('pwd');   
+        expect(result.email).to.equal(validData.email);    
+        expect(result.password).to.equal(validData.password);   
         
         mock.restore();
         
@@ -65,14 +69,13 @@ describe('User Controller Tests', () => {
         mock.throws();
 
         mock.returns({
-            email: 'email',
-            password: 'pwd'
+            ...validData
         });
     
         const result: any = await userController.postUser({}, res, () => { });
         
-        expect(result.email).to.equal('email');    
-        expect(result.password).to.equal('pwd');   
+        expect(result.email).to.equal(validData.email);    
+        expect(result.password).to.equal(validData.password);   
         
         mock.restore();
         
@@ -89,14 +92,13 @@ describe('User Controller Tests', () => {
         mock.throws();
 
         mock.returns({
-            email: 'email',
-            password: 'pwd'
+            ...validData
         });
     
         const result: any = await userController.putUser({}, res, () => { });
         
-        expect(result.email).to.equal('email');    
-        expect(result.password).to.equal('pwd');   
+        expect(result.email).to.equal(validData.email);    
+        expect(result.password).to.equal(validData.password);   
         
         mock.restore();
         
@@ -113,14 +115,13 @@ describe('User Controller Tests', () => {
         mock.throws();
 
         mock.returns({
-            email: 'email',
-            password: 'pwd'
+            ...validData
         });
     
         const result: any = await userController.deleteUser({}, res, () => { });
         
-        expect(result.email).to.equal('email');    
-        expect(result.password).to.equal('pwd');   
+        expect(result.email).to.equal(validData.email);    
+        expect(result.password).to.equal(validData.password);   
         
         mock.restore();
         

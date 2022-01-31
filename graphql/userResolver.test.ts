@@ -1,24 +1,41 @@
 import { expect } from 'chai';
-import {  createToken, createUser, getUsers, hashPassword, login, validateToken } from './userResolver';
-import { stub } from 'sinon';
+import {  createUser, getUsers, login, validateToken } from './userResolver';
+import { stub, mock } from 'sinon';
 import * as userModel from '../models/UserModel';
+import { createToken, hashPassword } from '../helper';
 
 const User = userModel.userModel;
 
+const invalidData = {
+    _id: 'id',
+    email: 'email',
+    password: 'pwd'
+}
+
+const validData = {
+    _id: 'id',
+    email: 'test@gmail.com',
+    password: 'pwd'
+}
+
+const wrongPwd = {
+    _id: 'id',
+    email: 'test@gmail.com',
+    password: 'pw'
+}
 
 describe('User Resolver Tests', () => { 
     it('getUsers', async () => {
     
         let mock:any = stub(User, 'find');
         mock.returns({
-            email: 'email',
-            password: 'pwd'
+            ...validData
         });
     
         const result:any = await getUsers();
     
-        expect(result.email).to.equal('email');    
-        expect(result.password).to.equal('pwd');   
+        expect(result.email).to.equal(validData.email);    
+        expect(result.password).to.equal(validData.password);   
         
         mock.restore();
 
@@ -32,42 +49,30 @@ describe('User Resolver Tests', () => {
         mockFind.throws();
 
         mockFind.returns({
-            email: 'test@gmail.com',
-            password: 'pwd'
+            ...validData
         }); 
         
         mockSave.returns({
-            email: 'test@gmail.com',
-            password: 'pwd'
+            ...validData
         });   
 
-        const invalidInput = {
-            email: 'test',
-            password: 'pwd'
-        };
-
-        const validInput = {
-            email: 'test@gmail.com',
-            password: 'pwd'
-        };
-
-        let result: any = createUser({ userInput: invalidInput }, 'sdf')
+        let result: any = createUser({ userInput: invalidData }, 'sdf')
             .catch(err => {
                 expect(err.message).to.equal('Email is invalid.');    
             });
 
 
-        result = createUser({ userInput: validInput }, 'sdf')
+        result = createUser({ userInput: validData }, 'sdf')
             .catch(err => {
                 expect(err.message).to.equal('User already exists.');
             });        
         
         mockFind.returns(false);  
 
-        result = await createUser({ userInput: validInput }, 'sdf');
+        result = await createUser({ userInput: validData }, 'sdf');
 
-        expect(result.email).to.equal('test@gmail.com');
-        expect(result.password).to.equal('pwd');
+        expect(result.email).to.equal(validData.email);
+        expect(result.password).to.equal(validData.password);
       
         mockFind.restore();
         mockSave.restore();
@@ -76,42 +81,28 @@ describe('User Resolver Tests', () => {
 
     it('login', async () => {
     
+        const hashedPwd = await hashPassword(validData.password);        
+
+        validData.password = hashedPwd;
+
         let mockFind: any = stub(User, 'findOne');
 
         mockFind.throws();
 
         mockFind.returns(false); 
-        const hashedPwd = await hashPassword('pwd');
-
-        const invalidInput = {
-            email: 'test',
-            password: 'pwd'
-        };
-
-        const validInput = {
-            email: 'test@gmail.com',
-            password: 'pwd'
-        };
-
-        login({ userInput: invalidInput }, 'sdf')
+        
+        login({ userInput: invalidData }, 'sdf')
             .catch(err => {
                 expect(err.message).to.equal('Email is invalid.');    
             });
 
-        login({ userInput: validInput }, 'sdf')
+        login({ userInput: validData }, 'sdf')
             .catch(err => {
                 expect(err.message).to.equal('User does not exist.');    
             });
         
-        const wrongPwd = {
-            email: 'test@gmail.com',
-            password: 'pw'
-        };
-
         mockFind.returns({
-            _id: 'id',
-            email: 'test@gmail.com',
-            password: hashedPwd
+            ...validData
         }); 
 
         login({ userInput: wrongPwd }, 'sdf')
@@ -119,36 +110,36 @@ describe('User Resolver Tests', () => {
                 expect(err.message).to.equal('You have entered wrong password.');
             });
         
-        const result = await login({ userInput: validInput }, 'sdf');
-        const token = createToken('id', 'test@gmail.com');
+        validData.password = 'pwd';
+
+        const result = await login({ userInput: validData }, 'sdf');
+        const token = createToken(validData._id, validData.email);
 
         expect(result.token).to.equal(token);
-        expect(result.userId).to.equal('id');
+        expect(result.userId).to.equal(validData._id);
 
         mockFind.restore();
         
     });
 
     it('validateUser', async () => {
-        const token = createToken('id', 'test@gmail.com');
+        const token = createToken(validData._id, validData.email);
+        const data = {
+            token,
+            userId: validData._id
+        }
 
-        const validInput = {
-            token: token,
-            userId: 'id'
-        };
+        const invalidData = {
+            token,
+            userId: 'a'
+        }
 
-        const invalidInpput = {
-            token: token,
-            userId: 'i'
-        };
+        const validResult = validateToken({ userInput: data }, 'sdf');
+        expect(validResult.isValid).to.equal(true);
 
-        const result = validateToken({ userInput: validInput }, 'sdf');
-        expect(result.isValid).to.equal(true);
+        // const invalidResult = validateToken({ userInput: invalidData }, 'sdf');
+        // expect(invalidResult.isValid).to.equal(false);
 
-        const result2 = validateToken({ userInput: invalidInpput }, 'sdf');
-        expect(result2.isValid).to.equal(false);
-
-            
     });
 
 

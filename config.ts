@@ -5,8 +5,8 @@ const config = {
         db: 'zemoso',
         user: encodeURIComponent("root"),
         pwd: encodeURIComponent("dungeon@[2015H]")
-    }
-
+    },
+    jwt : 'veenayakAggarwal1998'
 };
 
 export default config;
