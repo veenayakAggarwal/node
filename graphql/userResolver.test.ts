@@ -18,7 +18,10 @@ describe('User Resolver Tests', () => {
         const result:any = await getUsers();
     
         expect(result.email).to.equal('email');    
-        expect(result.password).to.equal('pwd');    
+        expect(result.password).to.equal('pwd');   
+        
+        mock.restore();
+
     });
 
     it('createUser', async () => {
@@ -67,6 +70,7 @@ describe('User Resolver Tests', () => {
         expect(result.password).to.equal('pwd');
       
         mockFind.restore();
+        mockSave.restore();
         
     });
 

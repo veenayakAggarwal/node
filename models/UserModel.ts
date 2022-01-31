@@ -1,4 +1,3 @@
-import { NextFunction, Request, Response } from 'express';
 import { Schema, model, Date } from 'mongoose';
 
 interface User {
@@ -32,13 +31,12 @@ const userSchema = new Schema<User>({
 
 export const userModel = model<User>('users', userSchema);
 
-export const insertUser =  (req:any, res:Response, next:NextFunction) => {
+export const insertUser = async (req:any, res:any, next:any) => {
     const data = { email: req.body.email, password: req.body.password };
     const userData = new userModel(data);
 
-    return userData.save()
-        .then(result => result)
-        .catch(err => {
+    return userData.save((err: any, data: any) => { 
+        if (err) { 
             const error = new Error(err);
             error.message = "There is some issue in creating this account";
                 
@@ -46,17 +44,16 @@ export const insertUser =  (req:any, res:Response, next:NextFunction) => {
                 error.message = "User already exists";
             }                        
             return next(error);
-        });
-
+        }
+        return data;
+    });
 }
     
-export const fetchUser = () => {
-    return userModel.find({})
-        .then(data => data)       
-        .catch(err => err)
+export const fetchUser = async () => {
+    return await userModel.find({});
 }
     
-export const fetchUserByEmail = (req:Request ,res:Response, next:NextFunction) => {
+export const fetchUserByEmail = (req:any ,res:any, next:any) => {
     return userModel.find({ email: req.params.key })
         .then(result => result)       
         .catch(err => {
@@ -64,7 +61,7 @@ export const fetchUserByEmail = (req:Request ,res:Response, next:NextFunction) =
         });
 }
     
-export const updateUser = (req:Request, res:Response, next:NextFunction) => {
+export const updateUser = (req:any, res:any, next:any) => {
     const data = { email: req.body.email, password: req.body.password };                
     const filter = { email: req.params.key };
     
@@ -75,7 +72,7 @@ export const updateUser = (req:Request, res:Response, next:NextFunction) => {
         });
 }
     
-export const deleteUser = (req:Request, res:Response, next:NextFunction) => {
+export const deleteUser = (req:any, res:any, next:any) => {
     return userModel.deleteOne({ email: req.params.key })
         .then(data => data)       
         .catch(err => {
